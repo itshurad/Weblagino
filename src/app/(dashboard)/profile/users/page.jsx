@@ -2,8 +2,8 @@ import React, { Suspense } from "react";
 import Search from "@/ui/Search";
 import queryString from "query-string";
 import Spinner from "@/ui/Spinner";
-import Pagination from "@/ui/Pagination";
-import { getPostsApi } from "@/services/postServices";
+// import Pagination from "@/ui/Pagination";
+// import { getPostsApi } from "@/services/postServices";
 import UsersTable from "./UsersTable";
 
 async function page({ searchParams }) {
@@ -14,7 +14,12 @@ async function page({ searchParams }) {
     <div>
       <div className="mb-8 grid grid-cols-1 items-center gap-8 text-[#1E2A44] lg:grid-cols-3">
         <h1 className="text-xl font-[1000]">لیست پست‌ها</h1>
-        <Search />
+        
+        {/* کامپوننت سرچ باید حتما داخل Suspense باشد */}
+        <Suspense fallback={<Spinner />}>
+          <Search />
+        </Suspense>
+        
       </div>
       <Suspense fallback={<Spinner />} key={query}>
         <UsersTable />

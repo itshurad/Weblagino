@@ -5,10 +5,9 @@ import UserRow from "./UserRow";
 import Table from "@/ui/Table";
 
 function UsersTable() {
-  const { users, isLoading } = useUsers();
+  const { users } = useUsers();
 
   if (users?.length) return <Empty resourceName="کاربری" />;
-  console.log(users.users);
 
   return (
     <Table>
