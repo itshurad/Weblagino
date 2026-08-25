@@ -54,7 +54,8 @@ export default function Example() {
           anchor="bottom"
           transition
           className={clsx(
-            "w-(--input-width) rounded-xl border border-white/5 bg-white/5 p-1 [--anchor-gap:--spacing(1)] empty:invisible",
+            // تغییرات اصلی در این خط انجام شده است
+            "w-[var(--input-width)] rounded-xl border border-white/5 bg-white/5 p-1 [--anchor-gap:0.25rem] empty:invisible",
             "data-leave:data-closed:opacity-0 transition duration-100 ease-in",
           )}
         >
