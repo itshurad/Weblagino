@@ -57,7 +57,7 @@ module.exports = {
         //     --color-error-100: 255, 186, 186;
       },
       fontFamily: {
-        sans: ["var(--font-iranYekan)", ...fontFamily.sans],
+        sans: ["var(--font-IranYekan)", ...fontFamily.sans],
       },
       container: {
         center: true,
