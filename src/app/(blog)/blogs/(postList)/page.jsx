@@ -1,11 +1,11 @@
 import React from "react";
-import PostList from "../_components/PostList";
 import { cookies } from "next/headers";
 import setCookieOnReq from "@/utils/setCookieOnReq";
 import { getPostsApi } from "@/services/postServices";
 import queryString from "query-string";
 import { Search } from "lucide-react";
 import Pagination from "@/ui/Pagination";
+import PostList from "../_components/PostList";
 
 async function Page({ searchParams }) {
   const cookieStore = cookies();

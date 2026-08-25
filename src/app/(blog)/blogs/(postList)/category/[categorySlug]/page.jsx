@@ -1,8 +1,8 @@
 import { getPostsApi } from "@/services/postServices";
 import setCookieOnReq from "@/utils/setCookieOnReq";
-import PostList from "app/(blog)/blogs/_components/PostList";
 import { cookies } from "next/headers";
 import queryString from "query-string";
+import PostList from "../../../_components/PostList";
 
 async function Category({ params, searchParams }) {
   const { categorySlug } = params;
