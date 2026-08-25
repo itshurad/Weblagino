@@ -16,18 +16,24 @@ async function page({ searchParams }) {
       <div className="mb-8 grid grid-cols-2 items-center gap-4 text-[#1E2A44] lg:grid-cols-3">
         <h1 className="order-1 text-xl font-[1000]">لیست پست‌ها</h1>
         <div className="order-3 md:order-2 col-span-2 md:col-span-1">
-          <Search />
+          <Suspense fallback={<div>در حال بارگذاری...</div>}>
+            <Search />
+          </Suspense>
         </div>
         <div className="order-2 md:order-3">
           <CreatePost />
         </div>
       </div>
+      
       <Suspense fallback={<Spinner />} key={query}>
         <PostsTable query={query} />
       </Suspense>
+      
       {totalPages > 1 && (
         <div className="mt-8 flex w-full justify-center">
-          <Pagination totalPages={totalPages} />
+          <Suspense fallback={<div>در حال بارگذاری صفحات...</div>}>
+            <Pagination totalPages={totalPages} />
+          </Suspense>
         </div>
       )}
     </div>
