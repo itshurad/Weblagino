@@ -12,6 +12,7 @@ async function page() {
           <CreateCategory />
         </div>
       </div>
+      
       <Suspense fallback={<Spinner />}>
         <CategoriesTable />
       </Suspense>
