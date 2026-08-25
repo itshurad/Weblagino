@@ -150,7 +150,7 @@ async function SinglePost({ params }) {
               <div className="rounded-[32px] bg-white p-6 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
                 <div className="mb-6 flex items-center justify-between">
                   <h4 className="text-lg font-black text-slate-800">
-                    مطالب مرتبط
+                    پست‌های مرتبط
                   </h4>
                   <Link
                     href="/blogs"
@@ -305,6 +305,5 @@ async function SinglePost({ params }) {
     </div>
   );
 }
-
 
 export default SinglePost;

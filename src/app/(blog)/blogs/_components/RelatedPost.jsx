@@ -3,17 +3,13 @@ import CoverImage from "./CoverImage";
 
 function RelatedPost({ posts }) {
   return (
-    <div className="mb-10">
-      <p className="mb-4 text-xl">پست های مرتبط</p>
-      <div className="grid grid-cols-6 gap-6">
+    <div className="">
+      <div className="flex h-[400px] flex-col gap-6 overflow-y-auto">
         {posts.map((item) => {
           return (
-            <div
-              key={item._id}
-              className="col-span-6 md:col-span-3 lg:col-span-2"
-            >
+            <div key={item._id} className="col-span-1">
               <CoverImage {...item} />
-              <div className="flex items-center justify-between">
+              <div className="mt-3 flex items-center justify-between">
                 <p>{item.title}</p>
                 <Author {...item.author} />
               </div>

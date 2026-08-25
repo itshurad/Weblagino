@@ -59,7 +59,8 @@ body {
   min-height: 100vh;
   user-select: text;
   /* پس‌زمینه کلی سایت مشابه صفحات قبلی */
-  background-color: #f8fafc; /* slate-50 */
+  00000000background-color: #f8fafc;
+   /* slate-50 */
   color: rgb(var(--color-text));
 }
 
