@@ -4,32 +4,32 @@
 
 @layer base {
   :root {
-    /* تم جدید: بر پایه Blue-600 و Slate */
+    /* Theme: Orange & Slate */
 
-    /* Primary (Blue) - رنگ اصلی برند */
-    --color-primary-900: 30, 58, 138; /* blue-900 */
-    --color-primary-800: 37, 99, 235; /* blue-600 (Main Action) */
-    --color-primary-700: 29, 78, 216; /* blue-700 (Hover) */
-    --color-primary-200: 191, 219, 254; /* blue-200 */
-    --color-primary-100: 239, 246, 255; /* blue-50 (Backgrounds) */
+    /* Primary (Orange) - رنگ اصلی برند */
+    --color-primary-900: 124, 45, 18; /* orange-900 */
+    --color-primary-800: 154, 52, 18; /* orange-800 */
+    --color-primary-700: 194, 65, 12; /* orange-700 */
+    --color-primary-600: 234, 88, 12; /* orange-600 (Main Action) */
+    --color-primary-500: 249, 115, 22; /* orange-500 */
+    --color-primary-200: 253, 186, 116; /* orange-200 */
+    --color-primary-100: 255, 237, 213; /* orange-100 (Backgrounds) */
+    --color-primary-50: 255, 247, 237; /* orange-50 */
 
     /* Text & Neutral (Slate) - رنگ‌های متن و خنثی */
     --color-text: 15, 23, 42; /* slate-900 */
     --color-paragraph: 51, 65, 85; /* slate-700 */
     --color-icon: 71, 85, 105; /* slate-500 */
     --color-border: 226, 232, 240; /* slate-200 */
+    --color-background: 248, 250, 252; /* slate-50 */
 
-    /* Success (Emerald) */
-    --color-success-500: 16, 185, 129;
+    /* Status Colors */
+    --color-success-500: 16, 185, 129; /* emerald-500 */
     --color-success-100: 209, 250, 229;
-
-    /* Warning (Amber) */
-    --color-warning-500: 245, 158, 11;
+    --color-warning-500: 245, 158, 11; /* amber-500 */
     --color-warning-100: 254, 243, 199;
-
-    /* Error (Rose) */
     --color-error-500: 244, 63, 94; /* rose-500 */
-    --color-error-100: 255, 228, 230; /* rose-100 */
+    --color-error-100: 255, 228, 230;
   }
 }
 
@@ -43,69 +43,52 @@
 
 html,
 body {
-  padding: 0;
-  margin: 0;
-  font-family:
-    var(--font-IranYekan),
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    "Helvetica Neue",
-    Arial,
-    sans-serif;
+  font-family: var(--font-IranYekan), ui-sans-serif, system-ui, sans-serif;
   min-height: 100vh;
-  user-select: text;
-  /* پس‌زمینه کلی سایت مشابه صفحات قبلی */
-  background-color: #f8fafc;
-   /* slate-50 */
+  background-color: rgb(var(--color-background));
   color: rgb(var(--color-text));
+  /* بهینه‌سازی رندر فونت‌ها در موبایل و دسکتاپ */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 @layer components {
-  /* --- استایل فرم‌ها --- */
+  /* --- Forms --- */
   .form {
     @apply flex w-full max-w-lg flex-col gap-y-6 rounded-3xl bg-white p-6 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 md:p-8;
   }
 
-  /* --- استایل اینپوت‌ها --- */
   .textField__input {
-    @apply w-full rounded-xl border border-slate-200 bg-white p-4 text-slate-700 placeholder-slate-400 transition-all duration-300 ease-out hover:border-blue-400 focus:border-blue-600 focus:bg-white focus:ring-4 focus:ring-blue-500/10;
+    @apply w-full rounded-2xl border border-slate-200 bg-white p-4 text-slate-700 placeholder-slate-400 transition-all duration-300 ease-out hover:border-orange-400 focus:border-orange-600 focus:bg-white focus:ring-4 focus:ring-orange-500/10;
   }
 
-  /* --- استایل دکمه‌ها --- */
+  /* --- Buttons --- */
   .btn {
-    @apply flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-bold transition-all duration-300 active:scale-95;
+    @apply flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-black transition-all duration-300 active:scale-95;
   }
 
-  /* دکمه اصلی (آبی) */
   .btn--primary {
-    @apply bg-blue-600 text-white shadow-md shadow-blue-500/20 hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-lg;
+    @apply bg-orange-600 text-white shadow-md shadow-orange-500/20 hover:-translate-y-0.5 hover:bg-orange-700 hover:shadow-lg;
   }
 
-  /* دکمه ثانویه (کمرنگ) */
   .btn--secondary {
-    @apply bg-blue-50 text-blue-600 hover:bg-blue-100;
+    @apply bg-orange-50 text-orange-600 hover:bg-orange-100;
   }
 
-  /* دکمه دورخط (Outline) */
   .btn--outline {
     @apply border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900;
   }
 
-  /* دکمه خطر (قرمز) */
   .btn--danger {
     @apply border border-rose-100 bg-rose-50 text-rose-600 hover:bg-rose-600 hover:text-white;
   }
 
-  /* --- استایل بج‌ها (Badges) --- */
+  /* --- Badges --- */
   .badge {
-    @apply inline-flex items-center rounded-lg px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset;
+    @apply inline-flex items-center rounded-lg px-2.5 py-0.5 text-xs font-bold ring-1 ring-inset;
   }
   .badge--primary {
-    @apply bg-blue-50 text-blue-700 ring-blue-700/10;
+    @apply bg-orange-50 text-orange-700 ring-orange-600/20;
   }
   .badge--secondary {
     @apply bg-slate-50 text-slate-600 ring-slate-500/10;
@@ -120,19 +103,18 @@ body {
     @apply bg-amber-50 text-amber-700 ring-amber-600/20;
   }
 
-  /* --- استایل لودرها --- */
+  /* --- Loaders --- */
   .spinner {
     margin: 3.2rem auto 1.6rem;
     width: 60px;
     aspect-ratio: 1;
     border-radius: 50%;
-    border: 8px solid rgb(var(--color-primary-100)); /* آبی خیلی روشن */
-    border-right-color: rgb(var(--color-primary-800)); /* آبی اصلی */
-    animation: rotate 1s infinite cubic-bezier(0.68, -0.55, 0.27, 1.55); /* انیمیشن نرم‌تر */
+    border: 8px solid rgb(var(--color-primary-100));
+    border-right-color: rgb(var(--color-primary-600));
+    animation: rotate 1s infinite cubic-bezier(0.68, -0.55, 0.27, 1.55);
   }
 
   .spinner-mini {
-    margin: 0;
     width: 20px;
     aspect-ratio: 1;
     border-radius: 50%;
@@ -140,18 +122,18 @@ body {
     border-right-color: white;
     animation: rotate 1s infinite linear;
   }
+}
 
-  @keyframes rotate {
-    to {
-      transform: rotate(1turn);
-    }
+@keyframes rotate {
+  to {
+    transform: rotate(1turn);
   }
 }
 
-/* --- استایل تگ‌ها (React Tag Input) --- */
+/* --- HeroUI / React Tag Input Overrides (Orange Theme) --- */
 .rti--container {
   background-color: #ffffff !important;
-  --rti-radius: 0.75rem !important; /* rounded-xl */
+  --rti-radius: 1rem !important;
   --rti-s: 0.5rem;
   --rti-tag: rgb(var(--color-primary-100));
   --rti-tag-remove: rgb(var(--color-error-500));
@@ -160,8 +142,8 @@ body {
 }
 
 .rti--container:focus-within {
-  border-color: rgb(var(--color-primary-800)) !important;
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); /* ring effect */
+  border-color: rgb(var(--color-primary-600)) !important;
+  box-shadow: 0 0 0 4px rgba(234, 88, 12, 0.1);
 }
 
 .rti--container .rti--input {
@@ -171,52 +153,47 @@ body {
 }
 
 .rti--tag {
-  background-color: rgb(var(--color-primary-100)) !important;
-  color: rgb(var(--color-primary-800)) !important;
-  padding: 0.25rem 0.75rem !important;
+  background-color: rgb(var(--color-primary-50)) !important;
+  color: rgb(var(--color-primary-700)) !important;
+  padding: 0.35rem 0.75rem !important;
   border-radius: 0.5rem !important;
-  font-weight: 500;
+  font-weight: 700 !important;
 }
 
-/* --- دکمه‌های عمومی --- */
+/* --- Global Elements & Tables --- */
 button {
   cursor: pointer;
-  outline: none;
 }
 button:disabled {
   cursor: not-allowed;
   opacity: 0.6;
   filter: grayscale(100%);
   pointer-events: none;
-  box-shadow: none;
 }
 
-/* --- Input Number Styles --- */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
 input[type="number"] {
   -moz-appearance: textfield;
 }
 
-/* --- جدول‌ها (Tables) --- */
 table {
-  border-collapse: separate; /* برای گرد کردن گوشه‌ها */
+  border-collapse: separate;
   border-spacing: 0;
   width: 100%;
-  border-radius: 1rem;
+  border-radius: 1.5rem;
   overflow: hidden;
   border: 1px solid rgb(var(--color-border));
 }
 
 table th {
-  background-color: rgb(var(--color-primary-100));
+  background-color: rgb(var(--color-primary-50));
   color: rgb(var(--color-paragraph));
-  font-weight: 800;
-  padding: 1rem 1.5rem;
+  font-weight: 900;
+  padding: 1.25rem 1.5rem;
   font-size: 0.9rem;
   text-align: right;
   white-space: nowrap;
@@ -234,21 +211,15 @@ table td {
 }
 
 table tr:hover td {
-  background-color: #f8fafc; /* slate-50 on hover */
+  background-color: rgb(var(--color-background));
 }
 
-a {
-  display: block;
-  text-decoration: none;
-}
-
-/* --- کامنت‌ها (Threaded Comments) --- */
+/* --- Threaded Comments --- */
 .post-comments .post-comments__answer {
   position: relative;
-  margin-right: 1.5rem; /* فاصله بیشتر برای ایندنت */
+  margin-right: 1.5rem;
 }
 
-/* خط عمودی اصلی */
 .post-comments .post-comments__answer::before {
   content: "";
   display: block;
@@ -257,32 +228,30 @@ a {
   right: -20px;
   top: -15px;
   width: 2px;
-  background-color: rgb(var(--color-border)); /* Slate-200 */
+  background-color: rgb(var(--color-border));
 }
 
-/* خط اتصال افقی */
 .post-comments .post-comments__answer .answer-item::before {
   content: "";
   display: block;
   height: 2px;
   position: relative;
-  right: -38px; /* تنظیم دقیق */
-  top: 45px; /* تنظیم بر اساس ارتفاع آواتار */
+  right: -38px;
+  top: 45px;
   width: 18px;
   background-color: rgb(var(--color-border));
   z-index: 10;
 }
 
-/* مخفی کردن ادامه خط برای آیتم آخر */
 .post-comments .post-comments__answer .last-item:after {
   content: "";
   display: block;
   height: calc(100% - 60px);
   position: absolute;
   right: -20px;
-  top: 60px; /* شروع از پایین اتصال */
-  width: 4px; /* ضخامت بیشتر برای پوشاندن */
-  background-color: #f8fafc; /* رنگ پس‌زمینه سایت */
+  top: 60px;
+  width: 4px;
+  background-color: rgb(var(--color-background));
 }
 
 @media (max-width: 640px) {

@@ -1,20 +1,24 @@
 "use client";
 
-import Button from "@/ui/Button";
-import RHFTextField from "@/ui/RHFTextField";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Link from "next/link";
-import { useAuth } from "@/context/AuthContext";
+
+import Button from "@/ui/Button";
+import RHFTextField from "@/ui/RHFTextField";
 import SpinnerMini from "@/ui/SpinnerMini";
+import { useAuth } from "@/context/AuthContext";
 
 const schema = yup.object({
-  email: yup.string().email("ایمیل نامعتبر است").required("ایمیل الزامی است"),
-  password: yup.string().required("رمز عبور الزامی است"),
+  email: yup
+    .string()
+    .email("فرمت ایمیل نامعتبر است")
+    .required("وارد کردن ایمیل الزامی است"),
+  password: yup.string().required("وارد کردن رمز عبور الزامی است"),
 });
 
-function Signin() {
+export default function Signin() {
   const {
     register,
     handleSubmit,
@@ -31,65 +35,83 @@ function Signin() {
   };
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center px-4">
-      {/* Card */}
-      <div className="w-full max-w-md space-y-6 rounded-3xl bg-white p-6 shadow-[0_10px_40px_rgba(0,0,0,0.06)] sm:p-8">
-        {/* Title */}
-        <div className="space-y-2 text-center">
-          <h1 className="text-lg font-bold text-[#1E2A44] sm:text-xl">
-            ورود به حساب
-          </h1>
-          <p className="text-xs text-gray-400">اطلاعات خود را وارد کنید</p>
-        </div>
+    <div className="w-full space-y-10">
+      {/* هدر مینیمال */}
+      <header className="space-y-2">
+        <h1 className="text-3xl font-black tracking-tight text-[#022626]">
+          ورود
+        </h1>
+        <p className="text-sm font-medium text-slate-500">
+          خوش آمدید، لطفاً اطلاعات خود را وارد کنید.
+        </p>
+      </header>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+      {/* فرم */}
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <div className="space-y-5">
           <RHFTextField
             name="email"
             label="ایمیل"
             register={register}
             dir="ltr"
+            placeholder="name@example.com"
             errors={errors}
           />
 
-          <RHFTextField
-            name="password"
-            label="رمز عبور"
-            register={register}
-            type="password"
-            dir="ltr"
-            errors={errors}
-          />
+          <div className="space-y-2">
+            <RHFTextField
+              name="password"
+              label="رمز عبور"
+              register={register}
+              type="password"
+              dir="ltr"
+              placeholder="••••••••"
+              errors={errors}
+            />
+            {/* لینک فراموشی رمز با استایل یکپارچه */}
+            <div className="flex justify-start">
+              <Link
+                href="#"
+                className="text-[12px] font-bold text-slate-400 transition-colors hover:text-[#E05D4B]"
+              >
+                رمز عبور خود را فراموش کرده‌اید؟
+              </Link>
+            </div>
+          </div>
+        </div>
 
-          {/* Submit */}
-          <Button type="submit" fullWidth size="lg" disabled={isSubmitting}>
+        <div className="pt-2">
+          {/* دکمه اصلی با رنگ مرجانی/نارنجی اختصاصی */}
+          <Button
+            type="submit"
+            fullWidth
+            className="flex h-12 w-full items-center justify-center rounded-2xl bg-[#E05D4B] text-sm font-bold text-white transition-all hover:bg-[#c95343] hover:shadow-lg hover:shadow-[#E05D4B]/20 active:scale-[0.98]"
+            disabled={isSubmitting}
+          >
             {isSubmitting ? (
-              <div className="flex items-center justify-center gap-2">
+              <div className="flex items-center gap-2">
                 <SpinnerMini />
-                در حال ورود...
+                <span>کمی صبر کنید...</span>
               </div>
             ) : (
-              "ورود"
+              "ورود به حساب"
             )}
           </Button>
+        </div>
 
-          {/* Divider */}
-          <div className="flex items-center gap-3 py-2">
-            <div className="h-px flex-1 bg-gray-100"></div>
-            <span className="text-[10px] text-gray-400">حساب ندارید؟</span>
-            <div className="h-px flex-1 bg-gray-100"></div>
-          </div>
-
-          {/* Signup Chip */}
-          <Link href="/signup" className="block">
-            <div className="w-full rounded-2xl bg-[#F3F6FB] py-3 text-center text-xs text-[#5E72E4] transition hover:bg-[#E9EDFF] sm:text-sm">
-              ثبت‌نام
-            </div>
-          </Link>
-        </form>
-      </div>
+        {/* لینک انتقال */}
+        <div className="text-center">
+          <p className="text-[13px] font-bold text-slate-500">
+            حساب کاربری ندارید؟{" "}
+            <Link
+              href="/signup"
+              className="text-[#022626] transition-colors hover:text-[#E05D4B]"
+            >
+              ثبت‌نام کنید
+            </Link>
+          </p>
+        </div>
+      </form>
     </div>
   );
 }
-
-export default Signin;

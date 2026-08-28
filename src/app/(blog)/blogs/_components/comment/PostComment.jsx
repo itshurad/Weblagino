@@ -1,36 +1,43 @@
 "use client";
-import Button from "@/ui/Button";
-import { QuestionMarkCircleIcon } from "@heroicons/react/24/outline";
-import classNames from "classnames";
-import Comment from "./Comment";
-import { useState } from "react";
-import { useAuth } from "@/context/AuthContext";
-import { useRouter } from "next/navigation";
-import CommentForm from "./CommentForm";
-import Modal from "@/ui/Modal";
 
-function PostComment({ post: { comments, _id: postId } }) {
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { MessageSquarePlus } from "lucide-react";
+import classNames from "classnames";
+
+import { useAuth } from "@/context/AuthContext";
+import Button from "@/ui/Button";
+import Modal from "@/ui/Modal";
+import Comment from "./Comment";
+import CommentForm from "./CommentForm";
+
+export default function PostComment({ post: { comments, _id: postId } }) {
   const [open, setOpen] = useState(false);
   const [parent, setParent] = useState(null);
   const { user } = useAuth();
   const router = useRouter();
 
-  const addNewCommentHandler = (parent) => {
+  const addNewCommentHandler = (parentComment) => {
     if (!user) {
       router.push("/signin");
       return;
     }
-    setParent(parent);
+    setParent(parentComment);
     setOpen(true);
   };
 
   return (
-    <div className="mb-10">
+    <section className="mb-10" aria-label="بخش نظرات">
+      {/* مودال ثبت نظر */}
       <Modal
         open={open}
         onClose={() => setOpen(false)}
-        title={parent ? "پاسخ به نظر" : "نظر جدید"}
-        description={parent ? parent.user.name : "نظر خود را وارد کنید"}
+        title={parent ? "پاسخ به نظر" : "ثبت نظر جدید"}
+        description={
+          parent
+            ? `در پاسخ به ${parent.user?.name}`
+            : "نظرتان را درباره این مقاله با ما به اشتراک بگذارید"
+        }
       >
         <CommentForm
           onClose={() => setOpen(false)}
@@ -38,54 +45,65 @@ function PostComment({ post: { comments, _id: postId } }) {
           postId={postId}
         />
       </Modal>
-      <div className="flex flex-col items-center lg:flex-row justify-between gap-y-3 mb-8">
-        <h2 className="text-2xl font-bold text-secondary-800">نظرات</h2>
+
+      {/* هدر بخش نظرات */}
+      <header className="mb-8 flex flex-col items-start justify-between gap-4 border-b border-slate-200 pb-4 md:flex-row md:items-center">
+        <h2 className="text-xl font-black text-slate-800 md:text-2xl">
+          نظرات کاربران
+        </h2>
         <Button
           onClick={() => addNewCommentHandler(null)}
           variant="outline"
-          className="flex items-center py-2"
+          className="flex w-full items-center justify-center gap-2 rounded-xl border-orange-200 bg-orange-50/50 py-2.5 text-orange-600 transition-colors hover:bg-orange-100 md:w-auto md:px-5"
         >
-          <QuestionMarkCircleIcon className="w-4 ml-2" />
-          <span>ثبت نظر جدید</span>
+          <MessageSquarePlus className="h-5 w-5" />
+          <span className="text-sm font-bold">ثبت نظر جدید</span>
         </Button>
-      </div>
-      <div className="space-y-8 post-comments bg-secondary-0 rounded-xl py-6 px-3 lg:px-6 ">
-        {comments.length > 0 ? (
-          comments.map((comment) => {
-            return (
-              <div key={comment._id}>
-                <div className="border border-secondary-200 rounded-xl p-2 sm:p-4 mb-3">
-                  <Comment
-                    comment={comment}
-                    onAddComment={() => addNewCommentHandler(comment)}
-                  />
-                </div>
-                <div className="post-comments__answer mr-2 sm:mr-8 space-y-3">
-                  {comment.answers.map((item, index) => {
-                    return (
-                      <div key={item._id} className="relative">
-                        <div
-                          className={classNames(
-                            "answer-item border border-secondary-100 bg-secondary-50/80 rounded-xl p-2 sm:p-4",
-                            {
-                              "last-item": index + 1 === comment.answers.length,
-                            }
-                          )}
-                        >
-                          <Comment comment={item} key={item._id} />
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
+      </header>
+
+      {/* لیست نظرات */}
+      <div className="post-comments space-y-6">
+        {comments && comments.length > 0 ? (
+          comments.map((comment) => (
+            <div key={comment._id} className="flex flex-col">
+              {/* نظر اصلی */}
+              <div className="mb-3 rounded-2xl border border-slate-100 bg-white p-4 shadow-sm md:rounded-[24px] md:p-5">
+                <Comment
+                  comment={comment}
+                  onAddComment={() => addNewCommentHandler(comment)}
+                />
               </div>
-            );
-          })
+
+              {/* پاسخ‌ها (Nested Comments) */}
+              {comment.answers && comment.answers.length > 0 && (
+                <div className="post-comments__answer mr-4 space-y-3 md:mr-10">
+                  {comment.answers.map((item, index) => (
+                    <div key={item._id} className="relative">
+                      <div
+                        className={classNames(
+                          "answer-item rounded-2xl border border-slate-100 bg-slate-50 p-4 shadow-sm md:p-5",
+                          {
+                            "last-item": index + 1 === comment.answers.length,
+                          },
+                        )}
+                      >
+                        <Comment comment={item} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))
         ) : (
-          <p className="text-secondary-500">برای این پست نظری ثبت نشده است</p>
+          <div className="flex flex-col items-center justify-center rounded-[32px] border border-dashed border-slate-200 bg-slate-50/50 py-12 text-center">
+            <MessageSquarePlus className="mb-3 h-10 w-10 text-slate-300" />
+            <p className="text-sm font-bold text-slate-500">
+              هنوز نظری ثبت نشده است. شما اولین نفر باشید!
+            </p>
+          </div>
         )}
       </div>
-    </div>
+    </section>
   );
 }
-export default PostComment;

@@ -1,37 +1,41 @@
 "use client";
 
-import { bookmarkPostApi, likePostApi } from "@/services/postServices";
+import React from "react";
+import { MessageCircle, Heart } from "lucide-react";
 import ButtonIcon from "@/ui/ButtonIcon";
 import { toPersianDigits } from "@/utils/numberFormatter";
-import {
-  BookmarkIcon,
-  ChatBubbleLeftEllipsisIcon,
-  HeartIcon,
-} from "@heroicons/react/24/outline";
+import useLike from "@/hooks/useLike";
 
-import {
-  BookmarkIcon as SolidBookmarkIcon,
-  HeartIcon as SolidHeartIcon,
-} from "@heroicons/react/24/solid";
-import { useRouter } from "next/navigation";
-
-import React from "react";
-import toast from "react-hot-toast";
-
-function PostInteraction({ post }) {
-  const router = useRouter();
+export default function PostInteraction({ post }) {
+  // استفاده از هوک اختصاصی لایک
+  const { likePost, isLiking } = useLike();
 
   return (
-    <div className="flex items-center gap-x-2">
-      <ButtonIcon variant="secondary">
-        <ChatBubbleLeftEllipsisIcon />
-        <span>{toPersianDigits(post.commentsCount)}</span>
+    <div className="flex items-center gap-2">
+      {/* دکمه نظرات */}
+      <ButtonIcon
+        variant="secondary"
+        className="hover:bg-orange-50 hover:text-orange-600"
+      >
+        <MessageCircle className="h-5 w-5" />
+        <span className="text-sm font-bold">
+          {toPersianDigits(post.commentsCount || 0)}
+        </span>
       </ButtonIcon>
-      <ButtonIcon variant="red" onClick={() => likeHandler(post._id)}>
-        {post.isLiked ? <SolidHeartIcon /> : <HeartIcon />}
+
+      {/* دکمه لایک */}
+      <ButtonIcon
+        variant="red"
+        disabled={isLiking}
+        onClick={() => likePost(post._id)}
+        className={`${post.isLiked ? "bg-rose-50 text-rose-600" : ""}`}
+      >
+        <Heart
+          className={`h-5 w-5 transition-transform active:scale-75 ${
+            post.isLiked ? "fill-rose-600 text-rose-600" : ""
+          }`}
+        />
       </ButtonIcon>
     </div>
   );
 }
-
-export default PostInteraction;

@@ -1,19 +1,19 @@
 "use client";
 
+import { useState, useActionState, useEffect } from "react";
+import toast from "react-hot-toast";
 import { createComment } from "@/lib/action";
 import SubmitButton from "@/ui/SubmitButton";
 import TextArea from "@/ui/TextArea";
-import { useState, useActionState, useEffect } from "react";
-import toast from "react-hot-toast";
 
-const initilaState = {
+const initialState = {
   error: "",
   message: "",
 };
 
-function CommentForm({ postId, parentId, onClose }) {
+export default function CommentForm({ postId, parentId, onClose }) {
   const [text, setText] = useState("");
-  const [state, formAction] = useActionState(createComment, initilaState); // useFormState in React V 18.
+  const [state, formAction] = useActionState(createComment, initialState);
 
   useEffect(() => {
     if (state?.message) {
@@ -26,28 +26,27 @@ function CommentForm({ postId, parentId, onClose }) {
   }, [state, onClose]);
 
   return (
-    <div>
-      <div className="flex justify-center mt-4">
-        <div className="max-w-md  w-full">
-          <form
-            className="space-y-7"
-            // action={createComment.bind(null, postId, parentId)}
-            action={async (formData) => {
-              await formAction({ formData, postId, parentId });
-            }}
-          >
-            <TextArea
-              name="text"
-              label="متن نظر"
-              value={text}
-              isRequired
-              onChange={(e) => setText(e.target.value)}
-            />
-            <SubmitButton>تایید</SubmitButton>
-          </form>
-        </div>
+    <div className="mt-4 flex justify-center">
+      <div className="w-full max-w-md">
+        <form
+          className="space-y-6"
+          action={async (formData) => {
+            await formAction({ formData, postId, parentId });
+          }}
+        >
+          <TextArea
+            name="text"
+            label="متن نظر شما"
+            value={text}
+            isRequired
+            onChange={(e) => setText(e.target.value)}
+            className="w-full rounded-2xl border-slate-200 bg-slate-50 focus:border-orange-500 focus:ring-orange-500/20"
+          />
+          <SubmitButton className="w-full rounded-xl bg-orange-600 py-3 text-sm font-bold text-white transition-all hover:bg-orange-700 active:scale-95">
+            ثبت نظر
+          </SubmitButton>
+        </form>
       </div>
     </div>
   );
 }
-export default CommentForm;

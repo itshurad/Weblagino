@@ -1,25 +1,32 @@
 "use client";
 
-import Button from "@/ui/Button";
-import RHFTextField from "@/ui/RHFTextField";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
+
+import Button from "@/ui/Button";
+import RHFTextField from "@/ui/RHFTextField";
 import SpinnerMini from "@/ui/SpinnerMini";
+import { useAuth } from "@/context/AuthContext";
 
 const schema = yup.object({
   name: yup
     .string()
-    .min(5, "نام و نام خانوادگی کمتر از 5 کاراکتر است")
-    .max(30, "نام و نام خانوادگی بیشتر از 30 کاراکتر است")
+    .min(5, "حداقل ۵ کاراکتر الزامی است")
+    .max(30, "حداکثر ۳۰ کاراکتر مجاز است")
     .required("نام و نام خانوادگی الزامی است"),
-  email: yup.string().email("ایمیل نامعتبر است").required("ایمیل الزامی است"),
-  password: yup.string().required("رمز عبور الزامی است"),
+  email: yup
+    .string()
+    .email("فرمت ایمیل نامعتبر است")
+    .required("ایمیل الزامی است"),
+  password: yup
+    .string()
+    .min(6, "حداقل ۶ کاراکتر الزامی است")
+    .required("رمز عبور الزامی است"),
 });
 
-function Signup() {
+export default function Signup() {
   const {
     register,
     handleSubmit,
@@ -36,23 +43,25 @@ function Signup() {
   };
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center px-4">
-      {/* Card */}
-      <div className="w-full max-w-md space-y-6 rounded-3xl bg-white p-6 shadow-[0_10px_40px_rgba(0,0,0,0.06)] sm:p-8">
-        {/* Title */}
-        <div className="space-y-2 text-center">
-          <h1 className="text-lg font-bold text-[#1E2A44] sm:text-xl">
-            ساخت حساب کاربری
-          </h1>
-          <p className="text-xs text-gray-400">اطلاعات خود را وارد کنید</p>
-        </div>
+    <div className="w-full space-y-10">
+      {/* هدر مینیمال */}
+      <header className="space-y-2">
+        <h1 className="text-3xl font-black tracking-tight text-[#022626]">
+          ثبت‌نام
+        </h1>
+        <p className="text-sm font-medium text-slate-500">
+          برای دسترسی به امکانات، حساب خود را بسازید.
+        </p>
+      </header>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+      {/* فرم */}
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <div className="space-y-5">
           <RHFTextField
             name="name"
             label="نام و نام خانوادگی"
             register={register}
+            placeholder="علی محمدی"
             errors={errors}
           />
 
@@ -61,6 +70,7 @@ function Signup() {
             label="ایمیل"
             register={register}
             dir="ltr"
+            placeholder="name@example.com"
             errors={errors}
           />
 
@@ -70,40 +80,43 @@ function Signup() {
             register={register}
             type="password"
             dir="ltr"
+            placeholder="••••••••"
             errors={errors}
           />
+        </div>
 
-          {/* Submit */}
-          <Button type="submit" fullWidth size="lg" disabled={isSubmitting}>
+        <div className="pt-2">
+          {/* دکمه اصلی با رنگ تیره برای ایجاد تنوع با صفحه لاگین یا استفاده از همان استایل */}
+          <Button
+            type="submit"
+            fullWidth
+            className="flex h-12 w-full items-center justify-center rounded-2xl bg-[#E05D4B] text-sm font-bold text-white transition-all hover:bg-[#E05D4B] hover:shadow-lg hover:shadow-[#E05D4B]/20 active:scale-[0.98]"
+            disabled={isSubmitting}
+          >
             {isSubmitting ? (
-              <div className="flex items-center justify-center gap-2">
+              <div className="flex items-center gap-2">
                 <SpinnerMini />
-                در حال ثبت‌نام...
+                <span>در حال ایجاد حساب...</span>
               </div>
             ) : (
-              "ثبت‌نام"
+              "تکمیل ثبت‌نام"
             )}
           </Button>
+        </div>
 
-          {/* Divider */}
-          <div className="flex items-center gap-3 py-2">
-            <div className="h-px flex-1 bg-gray-100"></div>
-            <span className="text-[10px] text-gray-400">
-              قبلاً ثبت‌نام کرده‌اید؟
-            </span>
-            <div className="h-px flex-1 bg-gray-100"></div>
-          </div>
-
-          {/* Signin Chip */}
-          <Link href="/signin" className="block">
-            <div className="w-full rounded-2xl bg-[#F3F6FB] py-3 text-center text-xs text-[#5E72E4] transition hover:bg-[#E9EDFF] sm:text-sm">
-              ورود
-            </div>
-          </Link>
-        </form>
-      </div>
+        {/* لینک انتقال */}
+        <div className="text-center">
+          <p className="text-[13px] font-bold text-slate-500">
+            از قبل حساب دارید؟{" "}
+            <Link
+              href="/signin"
+              className="text-[#E05D4B] transition-colors hover:text-[#c95343]"
+            >
+              وارد شوید
+            </Link>
+          </p>
+        </div>
+      </form>
     </div>
   );
 }
-
-export default Signup;

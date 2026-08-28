@@ -1,44 +1,46 @@
 import Avatar from "@/ui/Avatar";
 import Button from "@/ui/Button";
-import { ArrowUturnRightIcon } from "@heroicons/react/24/outline";
+import { CornerDownLeft } from "lucide-react";
 
-function Comment({ comment, onAddComment }) {
+export default function Comment({ comment, onAddComment }) {
   return (
-    <>
-      <div className="flex items-center justify-between mb-5 border-b border-b-secondary-200/60 pb-2">
-        <div className="flex items-center gap-x-1">
+    <article className="flex flex-col gap-4">
+      <header className="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div className="flex items-center gap-x-3">
           <Avatar
-            height={34}
-            width={34}
-            alt={comment.user?.name || "-"}
-            src={comment.user.avatarUrl}
+            height={38}
+            width={38}
+            alt={comment.user?.name || "کاربر"}
+            src={comment.user?.avatarUrl}
+            className="rounded-full ring-2 ring-slate-100"
           />
-          <div className="text-sm w-full text-secondary-600">
-            <span className="font-bold block mb-1">{comment.user.name}</span>
-            <span className="block text-secondary-500 text-xs">
+          <div className="flex w-full flex-col">
+            <span className="mb-0.5 text-sm font-black text-slate-800">
+              {comment.user?.name}
+            </span>
+            <span className="text-[11px] font-bold text-slate-400">
               {comment.createdAt}
             </span>
           </div>
         </div>
+
         <div>
           {comment.openToComment && (
             <Button
               onClick={onAddComment}
               variant="secondary"
-              className="text-sm flex gap-x-1 p-1 rounded-lg text-secondary-500 bg-secondary-200"
+              className="flex items-center gap-x-1.5 rounded-xl bg-orange-50 px-3 py-1.5 text-xs font-bold text-orange-600 transition-colors hover:bg-orange-100"
             >
-              <span className="ml-1">
-                <ArrowUturnRightIcon className="w-4" />
-              </span>
+              <CornerDownLeft className="h-4 w-4" />
               <span>پاسخ</span>
             </Button>
           )}
         </div>
-      </div>
-      <p className="text-secondary-700 leading-loose lg:leading-8 text-xs lg:text-base">
-        {comment.content.text}
+      </header>
+
+      <p className="text-sm leading-loose text-slate-600 md:text-base md:leading-loose">
+        {comment.content?.text}
       </p>
-    </>
+    </article>
   );
 }
-export default Comment;
